@@ -2,9 +2,11 @@
 package io.compiler.core;
 
 	import java.util.ArrayList;
+	import java.util.Stack;
 	import java.util.HashMap;
 	import io.compiler.types.*;
 	import io.compiler.core.exceptions.*;
+	import io.compiler.core.ast.*;
 
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -54,6 +56,18 @@ public class BUCOLGrammarBaseListener implements BUCOLGrammarListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitComando(BUCOLGrammarParser.ComandoContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterCmdIF(BUCOLGrammarParser.CmdIFContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCmdIF(BUCOLGrammarParser.CmdIFContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

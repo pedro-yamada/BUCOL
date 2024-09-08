@@ -2,9 +2,11 @@
 package io.compiler.core;
 
 	import java.util.ArrayList;
+	import java.util.Stack;
 	import java.util.HashMap;
 	import io.compiler.types.*;
 	import io.compiler.core.exceptions.*;
+	import io.compiler.core.ast.*;
 
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -43,6 +45,16 @@ public interface BUCOLGrammarListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitComando(BUCOLGrammarParser.ComandoContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link BUCOLGrammarParser#cmdIF}.
+	 * @param ctx the parse tree
+	 */
+	void enterCmdIF(BUCOLGrammarParser.CmdIFContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link BUCOLGrammarParser#cmdIF}.
+	 * @param ctx the parse tree
+	 */
+	void exitCmdIF(BUCOLGrammarParser.CmdIFContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link BUCOLGrammarParser#cmdAttrib}.
 	 * @param ctx the parse tree
