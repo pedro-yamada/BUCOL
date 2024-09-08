@@ -1,12 +1,10 @@
-grammar BUCOL;
+grammar BUCOLGrammar;
 
 @header {
 	import java.util.ArrayList;
-	import java.util.Stack;
 	import java.util.HashMap;
 	import io.compiler.types.*;
 	import io.compiler.core.exceptions.*;
-	import io.compiler.core.ast.*;
 }
 
 @members {
@@ -14,12 +12,6 @@ grammar BUCOL;
     private ArrayList<Var> currentDecl = new ArrayList<Var>();
     private Types currentType;
     private Types leftType=null, rightType=null;
-    private Program program = new Program();
-    private String strExpr = "";
-    private IfCommand currentIfCommand;
-    
-    private Stack<ArrayList<Command>> stack = new Stack<ArrayList<Command>>();
-    
     
     public void updateType(){
     	for(Var v: currentDecl){
@@ -33,28 +25,17 @@ grammar BUCOL;
         }
     }
     
-    public Program getProgram(){
-    	return this.program;
-    	}
-    
     public boolean isDeclared(String id){
     	return symbolTable.get(id) != null;
     }
 }
- 
-programa	: 'programa' ID  { program.setName(_input.LT(-1).getText());
-                               stack.push(new ArrayList<Command>()); 
-                             }
+
+programa	: 'programa' 
                declaravar+
                'inicio'
                comando+
                'fim'
                'fimprog'
-               
-               {
-                  program.setSymbolTable(symbolTable);
-                  program.setCommandList(stack.pop());
-               }
 			;
 						
 declaravar	: 'declare' { currentDecl.clear(); } 
@@ -76,38 +57,10 @@ declaravar	: 'declare' { currentDecl.clear(); }
 comando     :  cmdAttrib
 			|  cmdLeitura
 			|  cmdEscrita
-			|  cmdIF
-			;
-			
-cmdIF		: 'se'  { stack.push(new ArrayList<Command>());
-                      strExpr = "";
-                      currentIfCommand = new IfCommand();
-                    } 
-               AP 
-               expr
-               OPREL  { strExpr += _input.LT(-1).getText(); }
-               expr 
-               FP  { currentIfCommand.setExpression(strExpr); }
-               'entao'  
-               comando+                
-               { 
-                  currentIfCommand.setTrueList(stack.pop());                            
-               }  
-               ( 'senao'  
-                  { stack.push(new ArrayList<Command>()); }
-                 comando+
-                 {
-                   currentIfCommand.setFalseList(stack.pop());
-                 }  
-               )? 
-               'fimse' 
-               {
-               	   stack.peek().add(currentIfCommand);
-               }  			   
-			;
+			;					
 			
 cmdAttrib   : ID { if (!isDeclared(_input.LT(-1).getText())) {
-                       throw new UFABCSemanticException("Undeclared Variable: "+_input.LT(-1).getText());
+                       throw new BUCOLSemanticException("Undeclared Variable: "+_input.LT(-1).getText());
                    }
                    symbolTable.get(_input.LT(-1).getText()).setInitialized(true);
                    leftType = symbolTable.get(_input.LT(-1).getText()).getType();
@@ -120,40 +73,33 @@ cmdAttrib   : ID { if (!isDeclared(_input.LT(-1).getText())) {
                  System.out.println("Left  Side Expression Type = "+leftType);
                  System.out.println("Right Side Expression Type = "+rightType);
                  if (leftType.getValue() < rightType.getValue()){
-                    throw new UFABCSemanticException("Type Mismatchig on Assignment");
+                    throw new BUCOLSemanticException("Type Mismatchig on Assignment");
                  }
               }
 			;			
 			
 cmdLeitura  : 'leia' AP 
                ID { if (!isDeclared(_input.LT(-1).getText())) {
-                       throw new UFABCSemanticException("Undeclared Variable: "+_input.LT(-1).getText());
+                       throw new BUCOLSemanticException("Undeclared Variable: "+_input.LT(-1).getText());
                     }
                     symbolTable.get(_input.LT(-1).getText()).setInitialized(true);
-                    Command cmdRead = new ReadCommand(symbolTable.get(_input.LT(-1).getText()));
-                    stack.peek().add(cmdRead);
                   } 
                FP 
                PV 
 			;
 			
-cmdEscrita  : 'escreva' AP 
-              ( termo  { Command cmdWrite = new WriteCommand(_input.LT(-1).getText());
-                         stack.peek().add(cmdWrite);
-                       } 
-              ) 
-              FP PV { rightType = null;}
+cmdEscrita  : 'escreva' AP ( termo ) FP PV { rightType = null;}
 			;			
 
 			
-expr		:  termo  { strExpr += _input.LT(-1).getText(); } exprl 			
+expr		:  termo exprl 			
 			;
 			
 termo		: ID  { if (!isDeclared(_input.LT(-1).getText())) {
-                       throw new UFABCSemanticException("Undeclared Variable: "+_input.LT(-1).getText());
+                       throw new BUCOLSemanticException("Undeclared Variable: "+_input.LT(-1).getText());
                     }
                     if (!symbolTable.get(_input.LT(-1).getText()).isInitialized()){
-                       throw new UFABCSemanticException("Variable "+_input.LT(-1).getText()+" has no value assigned");
+                       throw new BUCOLSemanticException("Variable "+_input.LT(-1).getText()+" has no value assigned");
                     }
                     if (rightType == null){
                        rightType = symbolTable.get(_input.LT(-1).getText()).getType();
@@ -192,19 +138,14 @@ termo		: ID  { if (!isDeclared(_input.LT(-1).getText())) {
 			         }
 			;
 			
-exprl		: ( OP { strExpr += _input.LT(-1).getText(); } 
-                termo { strExpr += _input.LT(-1).getText(); } 
-              ) *
+exprl		: ( OP termo ) *
 			;	
 			
 OP			: '+' | '-' | '*' | '/' 
 			;	
 			
 OP_AT	    : ':='
-		    ;
-		    
-OPREL       : '>' | '<' | '>=' | '<= ' | '<>' | '=='
-			;		    			
+		    ;			
 			
 ID			: [a-z] ( [a-z] | [A-Z] | [0-9] )*		
 			;
