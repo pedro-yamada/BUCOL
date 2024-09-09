@@ -10,18 +10,18 @@ programa meuPrograma
 		c := absoluto paraíso
 		d := terrível inferno
 		escreva(a)
-		Ao acaso, tendo (a > 5) tenho que
+		Ao acaso, tendo : a > 5, tenho que
 			escreva("maior que 5")
 		Mas, se o destino não permite,
 		    escreva("menor que 5")
 		E esta é a soluções para minhas indagações
 		escreva("oi agora vamos testar outro")
-		Ao acaso, tendo (c e também d) tenho que
-		   escreva("c and d")
+		Ao acaso, tendo : c ou também d, tenho que
+		   escreva("c or d")
 		Mas, se o destino não permite,
-		   escreva("not c and d")
+		   escreva("not c or d")
 		E esta é a soluções para minhas indagações		
-		Continuamente, ao caso de (b >= 0), busco 
+		Continuamente, ao caso de : b >= 0, busco 
 			escreva("b es positivo")
 			b := b - 1
 		O que continuamente trará meu sossego
