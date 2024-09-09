@@ -43,14 +43,14 @@ grammar BUCOLGrammar;
     }
 }
  
-programa	: 'programa' ID  { program.setName(_input.LT(-1).getText());
+programa	: 'poema' ID  { program.setName(_input.LT(-1).getText());
                                stack.push(new ArrayList<Command>()); 
                              } QL
                declaravar+
                'inicio' QL
                comando+
                'fim' QL
-               'fimprog' QL
+               'fimpoema'
                {
                   program.setSymbolTable(symbolTable);
                   program.setCommandList(stack.pop());
@@ -240,7 +240,7 @@ OP_AT	    : ':='
 OPREL    : '>' | '<' | '>=' | '<= ' | '<>' | '==' |  'e também' | 'ou também'
 			;		    			
 			
-ID			: [a-z] ( [a-z] | [A-Z] | [0-9] )*		
+ID			: [a-z] ( [a-z] | [A-Z] | [0-9] | '_')*		
 			;
 			
 NUM		: [0-9]+ ('.' [0-9]+ )?
