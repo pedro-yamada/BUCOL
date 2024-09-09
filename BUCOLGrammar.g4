@@ -2,9 +2,11 @@ grammar BUCOLGrammar;
 
 @header {
 	import java.util.ArrayList;
+	import java.util.Stack;
 	import java.util.HashMap;
 	import io.compiler.types.*;
 	import io.compiler.core.exceptions.*;
+	import io.compiler.core.ast.*;
 }
 
 @members {
@@ -12,6 +14,13 @@ grammar BUCOLGrammar;
     private ArrayList<Var> currentDecl = new ArrayList<Var>();
     private Types currentType;
     private Types leftType=null, rightType=null;
+    private Program program = new Program();
+    private String strExpr = "";
+    private IfCommand currentIfCommand;
+    private WhileCommand currentWhileCommand;
+    
+    private Stack<ArrayList<Command>> stack = new Stack<ArrayList<Command>>();
+    
     
     public void updateType(){
     	for(Var v: currentDecl){
@@ -25,17 +34,28 @@ grammar BUCOLGrammar;
         }
     }
     
+    public Program getProgram(){
+    	return this.program;
+    	}
+    
     public boolean isDeclared(String id){
     	return symbolTable.get(id) != null;
     }
 }
-
-programa	: 'programa' 
+ 
+programa	: 'programa' ID  { program.setName(_input.LT(-1).getText());
+                               stack.push(new ArrayList<Command>()); 
+                             }
                declaravar+
                'inicio'
                comando+
                'fim'
                'fimprog'
+               
+               {
+                  program.setSymbolTable(symbolTable);
+                  program.setCommandList(stack.pop());
+               }
 			;
 						
 declaravar	: 'declare' { currentDecl.clear(); } 
@@ -57,7 +77,57 @@ declaravar	: 'declare' { currentDecl.clear(); }
 comando     :  cmdAttrib
 			|  cmdLeitura
 			|  cmdEscrita
-			;					
+			|  cmdIF
+         |  cmdWhile
+			;
+			
+cmdIF		: 'Ao acaso, tendo'  { stack.push(new ArrayList<Command>());
+                      strExpr = "";
+                      currentIfCommand = new IfCommand();
+                    } 
+               AP 
+               expr
+               OPREL  { strExpr += _input.LT(-1).getText(); }
+               expr 
+               FP  { currentIfCommand.setExpression(strExpr); }
+               'tenho que'  
+               comando+                
+               { 
+                  currentIfCommand.setTrueList(stack.pop());                            
+               }  
+               ( 'mas, se o destino não permite,'  
+                  { stack.push(new ArrayList<Command>()); }
+                 comando+
+                 {
+                   currentIfCommand.setFalseList(stack.pop());
+                 }  
+               )?
+               '...' 
+               {
+               	   stack.peek().add(currentIfCommand);
+               }  			   
+			;
+
+cmdWhile : 'Continuamente, ao caso de' { stack.push(new ArrayList<Command>());
+                      strExpr = "";
+                      currentWhileCommand = new WhileCommand();
+                    } 
+            AP 
+            expr
+            OPREL  { strExpr += _input.LT(-1).getText(); }
+            expr 
+            FP  { currentWhileCommand.setExpression(strExpr); }
+            ', busco'
+            comando+                
+            { 
+               currentWhileCommand.setCommandList(stack.pop());                            
+            }
+            '...' 
+            {
+                  stack.peek().add(currentWhileCommand);
+            }  
+         ;
+
 			
 cmdAttrib   : ID { if (!isDeclared(_input.LT(-1).getText())) {
                        throw new BUCOLSemanticException("Undeclared Variable: "+_input.LT(-1).getText());
@@ -83,16 +153,23 @@ cmdLeitura  : 'leia' AP
                        throw new BUCOLSemanticException("Undeclared Variable: "+_input.LT(-1).getText());
                     }
                     symbolTable.get(_input.LT(-1).getText()).setInitialized(true);
+                    Command cmdRead = new ReadCommand(symbolTable.get(_input.LT(-1).getText()));
+                    stack.peek().add(cmdRead);
                   } 
                FP 
                PV 
 			;
 			
-cmdEscrita  : 'escreva' AP ( termo ) FP PV { rightType = null;}
+cmdEscrita  : 'escreva' AP 
+              ( termo  { Command cmdWrite = new WriteCommand(_input.LT(-1).getText());
+                         stack.peek().add(cmdWrite);
+                       } 
+              ) 
+              FP PV { rightType = null;}
 			;			
 
 			
-expr		:  termo exprl 			
+expr		:  termo  { strExpr += _input.LT(-1).getText(); } exprl 			
 			;
 			
 termo		: ID  { if (!isDeclared(_input.LT(-1).getText())) {
@@ -138,14 +215,19 @@ termo		: ID  { if (!isDeclared(_input.LT(-1).getText())) {
 			         }
 			;
 			
-exprl		: ( OP termo ) *
+exprl		: ( OP { strExpr += _input.LT(-1).getText(); } 
+                termo { strExpr += _input.LT(-1).getText(); } 
+              ) *
 			;	
 			
 OP			: '+' | '-' | '*' | '/' 
 			;	
 			
 OP_AT	    : ':='
-		    ;			
+		    ;
+		    
+OPREL       : '>' | '<' | '>=' | '<= ' | '<>' | '=='
+			;		    			
 			
 ID			: [a-z] ( [a-z] | [A-Z] | [0-9] )*		
 			;
