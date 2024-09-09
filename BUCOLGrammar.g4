@@ -85,13 +85,13 @@ comando     :  cmdAttrib
 cmdIF		: 'Ao acaso, tendo'  { stack.push(new ArrayList<Command>());
                       strExpr = "";
                       currentIfCommand = new IfCommand();
-                    } 
-               AP 
+                    }  
+               DP
                expr
                OPREL  { strExpr += _input.LT(-1).getText(); }
                expr 
-               FP  { currentIfCommand.setExpression(strExpr); }
-               'tenho que' 
+               { currentIfCommand.setExpression(strExpr); }
+               ', tenho que' 
                QL
                comando+                
                { 
@@ -112,12 +112,12 @@ cmdIF		: 'Ao acaso, tendo'  { stack.push(new ArrayList<Command>());
 cmdWhile : 'Continuamente, ao caso de' { stack.push(new ArrayList<Command>());
                       strExpr = "";
                       currentWhileCommand = new WhileCommand();
-                    } 
-            AP 
+                    }  
+            DP
             expr
             OPREL  { strExpr += _input.LT(-1).getText(); }
             expr 
-            FP  { currentWhileCommand.setExpression(strExpr); }
+            { currentWhileCommand.setExpression(strExpr); }
             ', busco'
             QL
             comando+                

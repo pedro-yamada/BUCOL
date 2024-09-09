@@ -16,8 +16,8 @@ System.out.println(a);
 if (a>5) {System.out.println("maior que 5");
 }else {System.out.println("menor que 5");
 }System.out.println("oi agora vamos testar outro");
-if (c && d) {System.out.println("c and d");
-}else {System.out.println("not c and d");
+if (c || d) {System.out.println("c or d");
+}else {System.out.println("not c or d");
 }while (b>=0) {System.out.println("b es positivo");
 }   }
 }
