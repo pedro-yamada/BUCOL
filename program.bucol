@@ -1,26 +1,30 @@
 programa meuPrograma
-	declare a,b: number;
-	declare x,y: text;
+	declare a, b: number
+	declare c, d: boolean
+	declare x,y: text
 	inicio
-		escreva("Hello World");
-		escreva("Fim do programa");
-		leia(a);
-		leia(b);
-		escreva(a);
+		escreva("Hello World")
+		escreva("Fim do programa")
+		leia(a)
+		leia(b)
+		c := absoluto paraíso
+		d := terrível inferno
+		escreva(a)
 		Ao acaso, tendo (a > 5) tenho que
-			escreva("maior que 5");
-		mas, se o destino não permite,
-		    escreva("menor que 5");
-		...
-		escreva("oi agora vamos testar outro");
-		Ao acaso, tendo (b >= 0) tenho que
-		   escreva("b positivo");
-		mas, se o destino não permite,
-		   escreva("b negativo");
-		...		
+			escreva("maior que 5")
+		Mas, se o destino não permite,
+		    escreva("menor que 5")
+		E esta é a soluções para minhas indagações
+		escreva("oi agora vamos testar outro")
+		Ao acaso, tendo (c e também d) tenho que
+		   escreva("c and d")
+		Mas, se o destino não permite,
+		   escreva("not c and d")
+		E esta é a soluções para minhas indagações		
 		Continuamente, ao caso de (b >= 0), busco 
-			escreva("b positivo");
-		...
+			escreva("b es positivo")
+			b := b - 1
+		O que continuamente trará meu sossego
 	fim
 fimprog
 
