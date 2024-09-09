@@ -56,6 +56,16 @@ public interface BUCOLGrammarListener extends ParseTreeListener {
 	 */
 	void exitCmdIF(BUCOLGrammarParser.CmdIFContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link BUCOLGrammarParser#cmdWhile}.
+	 * @param ctx the parse tree
+	 */
+	void enterCmdWhile(BUCOLGrammarParser.CmdWhileContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link BUCOLGrammarParser#cmdWhile}.
+	 * @param ctx the parse tree
+	 */
+	void exitCmdWhile(BUCOLGrammarParser.CmdWhileContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link BUCOLGrammarParser#cmdAttrib}.
 	 * @param ctx the parse tree
 	 */

@@ -73,6 +73,18 @@ public class BUCOLGrammarBaseListener implements BUCOLGrammarListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterCmdWhile(BUCOLGrammarParser.CmdWhileContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCmdWhile(BUCOLGrammarParser.CmdWhileContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterCmdAttrib(BUCOLGrammarParser.CmdAttribContext ctx) { }
 	/**
 	 * {@inheritDoc}

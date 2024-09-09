@@ -17,6 +17,7 @@ grammar BUCOLGrammar;
     private Program program = new Program();
     private String strExpr = "";
     private IfCommand currentIfCommand;
+    private WhileCommand currentWhileCommand;
     
     private Stack<ArrayList<Command>> stack = new Stack<ArrayList<Command>>();
     
@@ -77,9 +78,10 @@ comando     :  cmdAttrib
 			|  cmdLeitura
 			|  cmdEscrita
 			|  cmdIF
+         |  cmdWhile
 			;
 			
-cmdIF		: 'se'  { stack.push(new ArrayList<Command>());
+cmdIF		: 'Ao acaso, tendo'  { stack.push(new ArrayList<Command>());
                       strExpr = "";
                       currentIfCommand = new IfCommand();
                     } 
@@ -88,23 +90,44 @@ cmdIF		: 'se'  { stack.push(new ArrayList<Command>());
                OPREL  { strExpr += _input.LT(-1).getText(); }
                expr 
                FP  { currentIfCommand.setExpression(strExpr); }
-               'entao'  
+               'tenho que'  
                comando+                
                { 
                   currentIfCommand.setTrueList(stack.pop());                            
                }  
-               ( 'senao'  
+               ( 'mas, se o destino não permite,'  
                   { stack.push(new ArrayList<Command>()); }
                  comando+
                  {
                    currentIfCommand.setFalseList(stack.pop());
                  }  
-               )? 
-               'fimse' 
+               )?
+               '...' 
                {
                	   stack.peek().add(currentIfCommand);
                }  			   
 			;
+
+cmdWhile : 'Continuamente, ao caso de' { stack.push(new ArrayList<Command>());
+                      strExpr = "";
+                      currentWhileCommand = new WhileCommand();
+                    } 
+            AP 
+            expr
+            OPREL  { strExpr += _input.LT(-1).getText(); }
+            expr 
+            FP  { currentWhileCommand.setExpression(strExpr); }
+            ', busco'
+            comando+                
+            { 
+               currentWhileCommand.setCommandList(stack.pop());                            
+            }
+            '...' 
+            {
+                  stack.peek().add(currentWhileCommand);
+            }  
+         ;
+
 			
 cmdAttrib   : ID { if (!isDeclared(_input.LT(-1).getText())) {
                        throw new BUCOLSemanticException("Undeclared Variable: "+_input.LT(-1).getText());
