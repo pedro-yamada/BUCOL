@@ -1,4 +1,4 @@
-programa meuPrograma
+poema versos_bucocilos
 	declare a, b: number
 	declare c, d: boolean
 	declare x,y: text
@@ -26,6 +26,4 @@ programa meuPrograma
 			b := b - 1
 		O que continuamente trará meu sossego
 	fim
-fimprog
-
-			
+fimpoema
