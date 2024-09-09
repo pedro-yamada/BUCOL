@@ -42,8 +42,11 @@ public class Program {
 			if (var.getType() == Types.NUMBER) {
 				str.append("    int ");
 			}
-			else {
+			else if (var.getType() == Types.TEXT){
 				str.append("    String ");				
+			}
+			else if (var.getType() == Types.BOOLEAN){
+				str.append("    boolean ");				
 			}
 			str.append(var.getId()+";\n");
 		}

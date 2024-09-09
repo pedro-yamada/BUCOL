@@ -14,7 +14,7 @@ public class IfCommand extends Command{
 
 	public IfCommand(String expression, List<Command> trueList, List<Command> falseList) {
 		super();
-		this.expression = expression;
+		this.expression = ExpressionFormater.formatExpression(expression);
 		this.trueList = trueList;
 		this.falseList = falseList;
 	}
@@ -24,7 +24,7 @@ public class IfCommand extends Command{
 	}
 
 	public void setExpression(String expression) {
-		this.expression = expression;
+		this.expression = ExpressionFormater.formatExpression(expression);
 	}
 
 	public List<Command> getTrueList() {

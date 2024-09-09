@@ -45,13 +45,12 @@ grammar BUCOLGrammar;
  
 programa	: 'programa' ID  { program.setName(_input.LT(-1).getText());
                                stack.push(new ArrayList<Command>()); 
-                             }
+                             } QL
                declaravar+
-               'inicio'
+               'inicio' QL
                comando+
-               'fim'
-               'fimprog'
-               
+               'fim' QL
+               'fimprog' QL
                {
                   program.setSymbolTable(symbolTable);
                   program.setCommandList(stack.pop());
@@ -68,10 +67,12 @@ declaravar	: 'declare' { currentDecl.clear(); }
                'number' {currentType = Types.NUMBER;}
                |
                'text' {currentType = Types.TEXT;}
+               |
+               'boolean' {currentType = Types.BOOLEAN;}
                ) 
                
                { updateType(); } 
-               PV
+               QL
 			;
 			
 comando     :  cmdAttrib
@@ -90,19 +91,19 @@ cmdIF		: 'Ao acaso, tendo'  { stack.push(new ArrayList<Command>());
                OPREL  { strExpr += _input.LT(-1).getText(); }
                expr 
                FP  { currentIfCommand.setExpression(strExpr); }
-               'tenho que'  
+               'tenho que' 
+               QL
                comando+                
                { 
                   currentIfCommand.setTrueList(stack.pop());                            
                }  
-               ( 'mas, se o destino não permite,'  
-                  { stack.push(new ArrayList<Command>()); }
-                 comando+
-                 {
-                   currentIfCommand.setFalseList(stack.pop());
-                 }  
+               ( 'Mas, se o destino não permite,'  
+               { stack.push(new ArrayList<Command>()); }
+               QL
+               comando+
+               { currentIfCommand.setFalseList(stack.pop()); }  
                )?
-               '...' 
+               'E esta é a soluções para minhas indagações' QL 
                {
                	   stack.peek().add(currentIfCommand);
                }  			   
@@ -118,11 +119,12 @@ cmdWhile : 'Continuamente, ao caso de' { stack.push(new ArrayList<Command>());
             expr 
             FP  { currentWhileCommand.setExpression(strExpr); }
             ', busco'
+            QL
             comando+                
             { 
                currentWhileCommand.setCommandList(stack.pop());                            
             }
-            '...' 
+            'O que continuamente trará meu sossego' QL
             {
                   stack.peek().add(currentWhileCommand);
             }  
@@ -137,8 +139,7 @@ cmdAttrib   : ID { if (!isDeclared(_input.LT(-1).getText())) {
                  }
               OP_AT 
               expr 
-              PV
-              
+              QL
               {
                  System.out.println("Left  Side Expression Type = "+leftType);
                  System.out.println("Right Side Expression Type = "+rightType);
@@ -157,7 +158,7 @@ cmdLeitura  : 'leia' AP
                     stack.peek().add(cmdRead);
                   } 
                FP 
-               PV 
+               QL 
 			;
 			
 cmdEscrita  : 'escreva' AP 
@@ -165,7 +166,7 @@ cmdEscrita  : 'escreva' AP
                          stack.peek().add(cmdWrite);
                        } 
               ) 
-              FP PV { rightType = null;}
+              FP QL { rightType = null;}
 			;			
 
 			
@@ -209,7 +210,17 @@ termo		: ID  { if (!isDeclared(_input.LT(-1).getText())) {
 			                if (rightType.getValue() < Types.TEXT.getValue()){			                    
 			                	rightType = Types.TEXT;
 			                	//System.out.println("Mudei o tipo para TEXT = "+rightType);
-			                	
+			                }
+			            }
+			         }
+         | BOOLEAN  {  if (rightType == null) {
+			 				rightType = Types.BOOLEAN;
+			 				//System.out.println("Encontrei pela 1a vez um booleano ="+ rightType);
+			            }
+			            else{
+			                if (rightType.getValue() < Types.BOOLEAN.getValue()){			                    
+			                	rightType = Types.BOOLEAN;
+			                	//System.out.println("Mudei o tipo para BOOLEAN = "+rightType);
 			                }
 			            }
 			         }
@@ -220,26 +231,29 @@ exprl		: ( OP { strExpr += _input.LT(-1).getText(); }
               ) *
 			;	
 			
-OP			: '+' | '-' | '*' | '/' 
+OP			: '+' | '-' | '*' | '/'
 			;	
 			
 OP_AT	    : ':='
 		    ;
 		    
-OPREL       : '>' | '<' | '>=' | '<= ' | '<>' | '=='
+OPREL    : '>' | '<' | '>=' | '<= ' | '<>' | '==' |  'e também' | 'ou também'
 			;		    			
 			
 ID			: [a-z] ( [a-z] | [A-Z] | [0-9] )*		
 			;
 			
-NUM			: [0-9]+ ('.' [0-9]+ )?
-			;			
+NUM		: [0-9]+ ('.' [0-9]+ )?
+			;		
+
+BOOLEAN : 'absoluto paraíso' | 'terrível inferno'
+        ;
 			
 VIRG		: ','
 			;
 						
-PV			: ';'
-            ;			
+QL			: '\n'
+         ;			
             
 AP			: '('
 			;            
@@ -253,5 +267,5 @@ DP			: ':'
 TEXTO       : '"' ( [a-z] | [A-Z] | [0-9] | ',' | '.' | ' ' | '-' )* '"'
 			;		    
 		    			
-WS			: (' ' | '\n' | '\r' | '\t' ) -> skip
+WS			: (' ' | '\n' | '\r' | '\t') -> skip
 			;

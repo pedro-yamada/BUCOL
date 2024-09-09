@@ -13,7 +13,7 @@ public class WhileCommand extends Command{
 
 	public WhileCommand(String expression, List<Command> commandList) {
 		super();
-		this.expression = expression;
+		this.expression =  ExpressionFormater.formatExpression(expression);
 		this.commandList = commandList;
 	}
 
@@ -22,7 +22,7 @@ public class WhileCommand extends Command{
 	}
 
 	public void setExpression(String expression) {
-		this.expression = expression;
+		this.expression = ExpressionFormater.formatExpression(expression);
 	}
 
 	public List<Command> getCommandList() {
