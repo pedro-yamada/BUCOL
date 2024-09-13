@@ -124,7 +124,7 @@ cmdIF		: 'Ao acaso, tendo'  { stack.push(new ArrayList<Command>());
                comando+
                { currentIfCommand.setFalseList(stack.pop()); }  
                )?
-               'E esta é a soluções para minhas indagações' QL 
+               'E esta é a solução para minhas indagações' QL 
                {
                	   stack.peek().add(currentIfCommand);
                }  			   

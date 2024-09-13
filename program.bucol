@@ -14,13 +14,13 @@ poema versos_bucocilos
 			Rogai ao mundo: "maior que 5"
 		Mas, se o destino não permite,
 		    Rogai ao mundo: "menor que 5"
-		E esta é a soluções para minhas indagações
+		E esta é a solução para minhas indagações
 		Rogai ao mundo: "oi agora vamos testar outro"
 		Ao acaso, tendo : c ou também d, tenho que
 		   Rogai ao mundo: "c or d"
 		Mas, se o destino não permite,
 		   Rogai ao mundo: "not c or d"
-		E esta é a soluções para minhas indagações		
+		E esta é a solução para minhas indagações		
 		Continuamente, ao caso de : b >= 0, busco 
 			Rogai ao mundo: "b es positivo"
 			b - 1, este é meu b
@@ -28,7 +28,7 @@ poema versos_bucocilos
 		Busco
 			Rogai ao mundo: "dentro do doWhile"
 			a-1, este é meu a
-		Continuamente, em caso de: a > 0
+		Continuamente, em caso de : a > 0
 		O que continuamente trará meu sossego
 	fim
 fimpoema

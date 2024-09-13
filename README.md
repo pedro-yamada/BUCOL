@@ -9,5 +9,5 @@ Para instalar o editor highlight, basta copia-lo para a pasta extensões do VSCo
 
 (LINUX) 
 ```
-cp -r bucol-language-highlight/ ~/.vscode/extensions/
+cp -r bucol-extension/ ~/.vscode/extensions/
 ```
