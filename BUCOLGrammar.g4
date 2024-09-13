@@ -62,23 +62,33 @@ declaravar	: declarativo { currentDecl.clear(); }
                (
                'integro' {currentType = Types.NUMBER;}
                |
+               'integros' {currentType = Types.NUMBER;}
+               |
                'integra' {currentType = Types.NUMBER;}
+               |
+               'integras' {currentType = Types.NUMBER;}
                |
                'verboso' {currentType = Types.TEXT;}
                |
+               'verbosos' {currentType = Types.TEXT;}
+               |
                'verbosa' {currentType = Types.TEXT;}
+               |
+               'verbosas' {currentType = Types.TEXT;}
                |
                'discreto' {currentType = Types.BOOLEAN;}
                |
+               'discretos' {currentType = Types.BOOLEAN;}
+               |
                'discreta' {currentType = Types.BOOLEAN;}
+               |
+               'discretas' {currentType = Types.BOOLEAN;}
                ) 
                { updateType(); } 
                ID  { currentDecl.add(new Var(_input.LT(-1).getText()));}
                ( VIRG ID                
               		 { currentDecl.add(new Var(_input.LT(-1).getText()));}
                )*	 
-
-
                { updateType(); } 
                QL
 			;

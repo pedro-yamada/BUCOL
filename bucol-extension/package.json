@@ -1,0 +1,25 @@
+{
+  "name": "bucol-extension",
+  "displayName": "BUCOL Extension",
+  "description": "Highlight for BUCOL programming language",
+  "version": "0.0.2",
+  "engines": {
+    "vscode": "^1.93.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [{
+      "id": "bucol",
+      "aliases": ["BUCOL", "bucol"],
+      "extensions": [".bucol"],
+      "configuration": "./language-configuration.json"
+    }],
+    "grammars": [{
+      "language": "bucol",
+      "scopeName": "source.bucol",
+      "path": "./syntaxes/bucol.tmLanguage.json"
+    }]
+  }
+}

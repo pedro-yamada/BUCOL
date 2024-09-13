@@ -1,0 +1,103 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "BUCOL",
+	"patterns": [
+		{
+			"include": "#keywords"
+		},
+		{
+			"include": "#var-types"
+		},
+		{
+			"include": "#commands"
+		},
+		{
+			"include": "#variables"
+		},
+		{
+			"include": "#strings"
+		}
+	],
+	"repository": {
+		"keywords": {
+			"patterns": [
+			{
+				"name": "keyword.control.bucol",
+				"match": "\\b(poema|fimpoema|inicio|fim)\\b"
+			},
+			{
+				"name": "keyword.control.bucol",
+				"match": "\\b(Atentai ao|Atentai à|Atentai aos|Atentai às)\\b"
+			}
+		]
+		},
+		"var-types" : {
+			"patterns": [
+				{
+					"name": "entity.name.type.int",
+					"match": "\\b(integro(s)?|integra(s)?)\\b"
+				},
+				{
+					"name": "entity.name.type.text",
+					"match": "\\b(verboso(s)?|verbosa(s)?)\\b"
+				},
+				{
+					"name": "entity.name.type.bool",
+					"match": "\\b(discreto(s)?|discreta(s)?)\\b"
+				}
+			]
+		},
+		"commands" : {
+			"patterns": [
+				{
+					"name": "entity.name.tag",
+					"match": "\\b(, este é meu)\\b"
+				},
+				{
+					"name": "entity.name.function",
+					"match": "\\b(Ao acaso, tendo :|, tenho que|Mas, se o destino não permite,|E esta é a soluções para minhas indagações)"
+				},
+				{
+					"name": "entity.name.function",
+					"match": "\\b(Continuamente, ao caso de :|, busco|O que continuamente trará meu sossego|Busco|Continuamente, em caso de:)"
+				},
+				{
+					"name": "keyword.operator",
+					"match": "(>(=)?|<(=)?|\\+|\\-|ou também|e também)"
+				},
+				{
+					"name": "keyword.operator.new.print",
+					"match": "Rogai ao mundo:(-)?"
+				},
+				{
+					"name": "keyword.operator.new.input",
+					"match": "\\?"
+				}	
+			]
+		},
+		"variables" : {
+			"patterns": [
+				{
+					"name": "constant.numeric",
+					"match": "[0-9]+(\\.[0-9]+)?"
+				},
+				{
+					"name": "constant.other.bool",
+					"match": "\\b(absoluto paraíso|terrível inferno)\\b"
+				}				  
+			]
+		},
+		"strings": {
+			"name": "string.quoted.double.bucol",
+			"begin": "\"",
+			"end": "\"",
+			"patterns": [
+				{
+					"name": "constant.character.escape.bucol",
+					"match": "\\\\."
+				}
+			]
+		}
+	},
+	"scopeName": "source.bucol"
+}
