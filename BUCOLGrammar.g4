@@ -57,23 +57,32 @@ programa	: 'poema' ID  { program.setName(_input.LT(-1).getText());
                }
 			;
 						
-declaravar	: 'declare' { currentDecl.clear(); } 
+declaravar	: declarativo { currentDecl.clear(); } 
+               (
+               'integro' {currentType = Types.NUMBER;}
+               |
+               'integra' {currentType = Types.NUMBER;}
+               |
+               'verboso' {currentType = Types.TEXT;}
+               |
+               'verbosa' {currentType = Types.TEXT;}
+               |
+               'discreto' {currentType = Types.BOOLEAN;}
+               |
+               'discreta' {currentType = Types.BOOLEAN;}
+               ) 
+               { updateType(); } 
                ID  { currentDecl.add(new Var(_input.LT(-1).getText()));}
                ( VIRG ID                
               		 { currentDecl.add(new Var(_input.LT(-1).getText()));}
                )*	 
-               DP 
-               (
-               'number' {currentType = Types.NUMBER;}
-               |
-               'text' {currentType = Types.TEXT;}
-               |
-               'boolean' {currentType = Types.BOOLEAN;}
-               ) 
-               
+
+
                { updateType(); } 
                QL
 			;
+
+declarativo  : 'Atentai ao' | 'Atentai à' | 'Atentai aos' | 'Atentai às';
 			
 comando     :  cmdAttrib
 			|  cmdLeitura
@@ -131,14 +140,15 @@ cmdWhile : 'Continuamente, ao caso de' { stack.push(new ArrayList<Command>());
          ;
 
 			
-cmdAttrib   : ID { if (!isDeclared(_input.LT(-1).getText())) {
+cmdAttrib   : expr
+              VIRG
+              OP_AT
+              ID { if (!isDeclared(_input.LT(-1).getText())) {
                        throw new BUCOLSemanticException("Undeclared Variable: "+_input.LT(-1).getText());
                    }
                    symbolTable.get(_input.LT(-1).getText()).setInitialized(true);
                    leftType = symbolTable.get(_input.LT(-1).getText()).getType();
                  }
-              OP_AT 
-              expr 
               QL
               {
                  System.out.println("Left  Side Expression Type = "+leftType);
@@ -149,15 +159,14 @@ cmdAttrib   : ID { if (!isDeclared(_input.LT(-1).getText())) {
               }
 			;			
 			
-cmdLeitura  : 'leia' AP 
-               ID { if (!isDeclared(_input.LT(-1).getText())) {
+cmdLeitura  :  ID { if (!isDeclared(_input.LT(-1).getText())) {
                        throw new BUCOLSemanticException("Undeclared Variable: "+_input.LT(-1).getText());
                     }
                     symbolTable.get(_input.LT(-1).getText()).setInitialized(true);
                     Command cmdRead = new ReadCommand(symbolTable.get(_input.LT(-1).getText()));
                     stack.peek().add(cmdRead);
                   } 
-               FP 
+               PI 
                QL 
 			;
 			
@@ -234,7 +243,7 @@ exprl		: ( OP { strExpr += _input.LT(-1).getText(); }
 OP			: '+' | '-' | '*' | '/'
 			;	
 			
-OP_AT	    : ':='
+OP_AT	    : 'este é meu' | 'esta é minha'
 		    ;
 		    
 OPREL    : '>' | '<' | '>=' | '<= ' | '<>' | '==' |  'e também' | 'ou também'
@@ -260,6 +269,9 @@ AP			: '('
 						
 FP			: ')'
 			;
+
+PI       : '?'
+         ;
 									
 DP			: ':'
 		    ;
