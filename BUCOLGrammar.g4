@@ -4,6 +4,7 @@ grammar BUCOLGrammar;
 	import java.util.ArrayList;
 	import java.util.Stack;
 	import java.util.HashMap;
+   import java.util.Map;
 	import io.compiler.types.*;
 	import io.compiler.core.exceptions.*;
 	import io.compiler.core.ast.*;
@@ -21,8 +22,7 @@ grammar BUCOLGrammar;
     private AtribCommand currentAtribCommand;
     
     private Stack<ArrayList<Command>> stack = new Stack<ArrayList<Command>>();
-    
-    
+        
     public void updateType(){
     	for(Var v: currentDecl){
     	   v.setType(currentType);
@@ -42,6 +42,18 @@ grammar BUCOLGrammar;
     public boolean isDeclared(String id){
     	return symbolTable.get(id) != null;
     }
+
+    public static void checkAllInitialized(HashMap<String, Var> symbolTable) {
+        for (Map.Entry<String, Var> entry : symbolTable.entrySet()) {
+            String key = entry.getKey();
+            Var var = entry.getValue();
+
+            // Check if the variable is initialized
+            if (!var.isInitialized()) {
+                System.out.println("Ó, autor, a variável '" + key + "' foi declarada, contudo não inicializada.");
+            }
+        }
+    }
 }
  
 programa	: 'poema' ID  { program.setName(_input.LT(-1).getText());
@@ -55,6 +67,7 @@ programa	: 'poema' ID  { program.setName(_input.LT(-1).getText());
             {
                program.setSymbolTable(symbolTable);
                program.setCommandList(stack.pop());
+               checkAllInitialized(symbolTable);
             }
 			;
 						
@@ -208,12 +221,12 @@ cmdLeitura  :  ID { if (!isDeclared(_input.LT(-1).getText())) {
                QL 
 			;
 			
-cmdEscrita  : 'escreva' AP 
+cmdEscrita  : 'Rogai ao mundo' DP 
               ( termo  { Command cmdWrite = new WriteCommand(_input.LT(-1).getText());
                          stack.peek().add(cmdWrite);
                        } 
               ) 
-              FP QL { rightType = null;}
+              QL { rightType = null;}
 			;			
 
 			

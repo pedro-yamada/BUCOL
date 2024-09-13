@@ -1,7 +1,8 @@
 poema versos_bucocilos
 	Atentai aos integros a, b
-	Atentai às discreta c, d
-	Atentai ao verboso x,y
+	Atentai às discretas c, d
+	Atentai ao verboso x
+	Atentai ao verboso y
 	inicio
 		Rogai ao mundo: "Hello World"
 		Rogai ao mundo: "Fim do programa"
