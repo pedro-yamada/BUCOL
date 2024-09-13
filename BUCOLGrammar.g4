@@ -18,6 +18,7 @@ grammar BUCOLGrammar;
     private String strExpr = "";
     private IfCommand currentIfCommand;
     private WhileCommand currentWhileCommand;
+    private AtribCommand currentAtribCommand;
     
     private Stack<ArrayList<Command>> stack = new Stack<ArrayList<Command>>();
     
@@ -46,15 +47,15 @@ grammar BUCOLGrammar;
 programa	: 'poema' ID  { program.setName(_input.LT(-1).getText());
                                stack.push(new ArrayList<Command>()); 
                              } QL
-               declaravar+
-               'inicio' QL
-               comando+
-               'fim' QL
-               'fimpoema'
-               {
-                  program.setSymbolTable(symbolTable);
-                  program.setCommandList(stack.pop());
-               }
+            declaravar+
+            'inicio' QL
+            comando+
+            'fim' QL
+            'fimpoema'
+            {
+               program.setSymbolTable(symbolTable);
+               program.setCommandList(stack.pop());
+            }
 			;
 						
 declaravar	: declarativo { currentDecl.clear(); } 
@@ -89,6 +90,7 @@ comando     :  cmdAttrib
 			|  cmdEscrita
 			|  cmdIF
          |  cmdWhile
+         |  cmdDoWhile
 			;
 			
 cmdIF		: 'Ao acaso, tendo'  { stack.push(new ArrayList<Command>());
@@ -129,8 +131,7 @@ cmdWhile : 'Continuamente, ao caso de' { stack.push(new ArrayList<Command>());
             { currentWhileCommand.setExpression(strExpr); }
             ', busco'
             QL
-            comando+                
-            { 
+            comando + { 
                currentWhileCommand.setCommandList(stack.pop());                            
             }
             'O que continuamente trará meu sossego' QL
@@ -139,8 +140,33 @@ cmdWhile : 'Continuamente, ao caso de' { stack.push(new ArrayList<Command>());
             }  
          ;
 
+cmdDoWhile : 'Busco' { stack.push(new ArrayList<Command>());
+                      currentWhileCommand = new WhileCommand();
+                    }  
+            QL
+            comando+                
+            { 
+               currentWhileCommand.setCommandList(stack.pop());    
+               strExpr = "";                        
+            }
+            'Continuamente, em caso de'
+            DP
+            expr
+            OPREL  { strExpr += _input.LT(-1).getText(); }
+            expr 
+            QL
+            { currentWhileCommand.setExpression(strExpr); }
+            'O que continuamente trará meu sossego' QL
+            {
+                  stack.peek().add(currentWhileCommand);
+            }  
+         ;
 			
-cmdAttrib   : expr
+cmdAttrib : {strExpr = "";}
+            expr {
+                  AtribCommand cmdRead = new AtribCommand();
+                  cmdRead.setRightSide(strExpr);
+               }
               VIRG
               OP_AT
               ID { if (!isDeclared(_input.LT(-1).getText())) {
@@ -148,6 +174,7 @@ cmdAttrib   : expr
                    }
                    symbolTable.get(_input.LT(-1).getText()).setInitialized(true);
                    leftType = symbolTable.get(_input.LT(-1).getText()).getType();
+                   cmdRead.setLeftSide(symbolTable.get(_input.LT(-1).getText()));
                  }
               QL
               {
@@ -156,6 +183,7 @@ cmdAttrib   : expr
                  if (leftType.getValue() < rightType.getValue()){
                     throw new BUCOLSemanticException("Type Mismatchig on Assignment");
                  }
+                 stack.peek().add(cmdRead);
               }
 			;			
 			

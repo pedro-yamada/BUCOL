@@ -1,14 +1,14 @@
 poema versos_bucocilos
-	declare a, b: number
-	declare c, d: boolean
-	declare x,y: text
+	Atentai aos integro a, b
+	Atentai às discreta c, d
+	Atentai ao verboso x,y
 	inicio
 		escreva("Hello World")
 		escreva("Fim do programa")
-		leia(a)
-		leia(b)
-		c := absoluto paraíso
-		d := terrível inferno
+		a ?
+		b ?
+		absoluto paraíso, este é meu c
+		terrível inferno, este é meu d
 		escreva(a)
 		Ao acaso, tendo : a > 5, tenho que
 			escreva("maior que 5")
@@ -23,7 +23,12 @@ poema versos_bucocilos
 		E esta é a soluções para minhas indagações		
 		Continuamente, ao caso de : b >= 0, busco 
 			escreva("b es positivo")
-			b := b - 1
+			b - 1, este é meu b
+		O que continuamente trará meu sossego
+		Busco
+			escreva("dentro do doWhile")
+			a-1, este é meu a
+		Continuamente, em caso de: a > 0
 		O que continuamente trará meu sossego
 	fim
 fimpoema

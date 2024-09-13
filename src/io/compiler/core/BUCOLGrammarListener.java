@@ -36,6 +36,16 @@ public interface BUCOLGrammarListener extends ParseTreeListener {
 	 */
 	void exitDeclaravar(BUCOLGrammarParser.DeclaravarContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link BUCOLGrammarParser#declarativo}.
+	 * @param ctx the parse tree
+	 */
+	void enterDeclarativo(BUCOLGrammarParser.DeclarativoContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link BUCOLGrammarParser#declarativo}.
+	 * @param ctx the parse tree
+	 */
+	void exitDeclarativo(BUCOLGrammarParser.DeclarativoContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link BUCOLGrammarParser#comando}.
 	 * @param ctx the parse tree
 	 */
@@ -65,6 +75,16 @@ public interface BUCOLGrammarListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitCmdWhile(BUCOLGrammarParser.CmdWhileContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link BUCOLGrammarParser#cmdDoWhile}.
+	 * @param ctx the parse tree
+	 */
+	void enterCmdDoWhile(BUCOLGrammarParser.CmdDoWhileContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link BUCOLGrammarParser#cmdDoWhile}.
+	 * @param ctx the parse tree
+	 */
+	void exitCmdDoWhile(BUCOLGrammarParser.CmdDoWhileContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link BUCOLGrammarParser#cmdAttrib}.
 	 * @param ctx the parse tree

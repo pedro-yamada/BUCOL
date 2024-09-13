@@ -49,6 +49,18 @@ public class BUCOLGrammarBaseListener implements BUCOLGrammarListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterDeclarativo(BUCOLGrammarParser.DeclarativoContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDeclarativo(BUCOLGrammarParser.DeclarativoContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterComando(BUCOLGrammarParser.ComandoContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -80,6 +92,18 @@ public class BUCOLGrammarBaseListener implements BUCOLGrammarListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitCmdWhile(BUCOLGrammarParser.CmdWhileContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterCmdDoWhile(BUCOLGrammarParser.CmdDoWhileContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCmdDoWhile(BUCOLGrammarParser.CmdDoWhileContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
