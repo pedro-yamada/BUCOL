@@ -117,6 +117,16 @@ public interface BUCOLGrammarListener extends ParseTreeListener {
 	 */
 	void exitCmdEscrita(BUCOLGrammarParser.CmdEscritaContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link BUCOLGrammarParser#cmdEscritaNL}.
+	 * @param ctx the parse tree
+	 */
+	void enterCmdEscritaNL(BUCOLGrammarParser.CmdEscritaNLContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link BUCOLGrammarParser#cmdEscritaNL}.
+	 * @param ctx the parse tree
+	 */
+	void exitCmdEscritaNL(BUCOLGrammarParser.CmdEscritaNLContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link BUCOLGrammarParser#expr}.
 	 * @param ctx the parse tree
 	 */

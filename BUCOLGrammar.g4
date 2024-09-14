@@ -111,6 +111,7 @@ declarativo  : 'Atentai ao' | 'Atentai à' | 'Atentai aos' | 'Atentai às';
 comando     :  cmdAttrib
 			|  cmdLeitura
 			|  cmdEscrita
+         | cmdEscritaNL
 			|  cmdIF
          |  cmdWhile
          |  cmdDoWhile
@@ -222,7 +223,7 @@ cmdLeitura  :  ID { if (!isDeclared(_input.LT(-1).getText())) {
 			;
 			
 cmdEscrita  : 'Rogai ao mundo' DP 
-              ( termo  { Command cmdWrite = new WriteCommand(_input.LT(-1).getText());
+              ( termo  { Command cmdWrite = new WriteCommand(_input.LT(-1).getText(), false);
                          stack.peek().add(cmdWrite);
                        } 
               ) 
@@ -230,10 +231,9 @@ cmdEscrita  : 'Rogai ao mundo' DP
 			;			
 
 
-cmdEscritaNL  : 'Rogai ao mundo' DP '-'
-              ( termo  { Command cmdWrite = new WriteCommand(_input.LT(-1).getText());
-                         
-                         stack.peek().add('\n' + cmdWrite);
+cmdEscritaNL  : 'Rogai ao mundo!' DP
+              ( termo  { Command cmdWrite = new WriteCommand(_input.LT(-1).getText(), true);
+                         stack.peek().add(cmdWrite);
                        } 
               ) 
             QL { rightType = null;}

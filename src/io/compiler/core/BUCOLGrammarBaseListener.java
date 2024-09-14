@@ -146,6 +146,18 @@ public class BUCOLGrammarBaseListener implements BUCOLGrammarListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterCmdEscritaNL(BUCOLGrammarParser.CmdEscritaNLContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCmdEscritaNL(BUCOLGrammarParser.CmdEscritaNLContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterExpr(BUCOLGrammarParser.ExprContext ctx) { }
 	/**
 	 * {@inheritDoc}

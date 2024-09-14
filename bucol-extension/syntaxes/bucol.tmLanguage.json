@@ -67,7 +67,7 @@
 				},
 				{
 					"name": "keyword.operator.new.print",
-					"match": "Rogai ao mundo:(-)?"
+					"match": "Rogai ao mundo(!)?:"
 				},
 				{
 					"name": "keyword.operator.new.input",
