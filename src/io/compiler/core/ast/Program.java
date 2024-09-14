@@ -40,7 +40,7 @@ public class Program {
 		for (String varId: symbolTable.keySet()) {
 			Var var = symbolTable.get(varId);
 			if (var.getType() == Types.NUMBER) {
-				str.append("    int ");
+				str.append("    double ");
 			}
 			else if (var.getType() == Types.TEXT){
 				str.append("    String ");				

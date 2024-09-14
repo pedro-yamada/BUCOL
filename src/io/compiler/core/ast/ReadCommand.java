@@ -27,7 +27,7 @@ public class ReadCommand extends Command {
 	@Override
 	public String generateTarget() {
 		// TODO Auto-generated method stub
-		return var.getId() + " = " + ((var.getType()==Types.NUMBER)?"_scTrx.nextInt();":"_scTrx.nextLine();")+"\n";
+		return var.getId() + " = " + ((var.getType()==Types.NUMBER)?"_scTrx.nextFloat();":"_scTrx.nextLine();")+"\n";
 	}
 
 }

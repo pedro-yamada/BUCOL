@@ -2,15 +2,15 @@ import java.util.Scanner;
 public class versos_bucocilos{ 
    public static void main(String args[]){ 
    Scanner _scTrx = new Scanner(System.in);
-    int a;
-    int b;
+    double a;
+    double b;
     boolean c;
     boolean d;
     String x;
     String y;
 System.out.println("Hello World");
 System.out.println("Fim do programa");
-a = _scTrx.nextInt();
+a = 3.1415;
 b = _scTrx.nextInt();
 c = true;
 d = false;
