@@ -193,7 +193,7 @@ cmdAttrib : {strExpr = "";}
               VIRG
               OP_AT
               ID { if (!isDeclared(_input.LT(-1).getText())) {
-                       throw new BUCOLSemanticException("Undeclared Variable: "+_input.LT(-1).getText());
+                       throw new BUCOLSemanticException("Ó autor, variável utilizada não foi declarada: "+_input.LT(-1).getText());
                    }
                    symbolTable.get(_input.LT(-1).getText()).setInitialized(true);
                    leftType = symbolTable.get(_input.LT(-1).getText()).getType();
@@ -204,7 +204,7 @@ cmdAttrib : {strExpr = "";}
                  System.out.println("Left  Side Expression Type = "+leftType);
                  System.out.println("Right Side Expression Type = "+rightType);
                  if (leftType.getValue() < rightType.getValue()){
-                    throw new BUCOLSemanticException("Type Mismatchig on Assignment");
+                    throw new BUCOLSemanticException("Ó autor, variável "+_input.LT(-1).getText()+" possui tipos distintos:"+ leftType +" e "+ rightType);
                  }
                  stack.peek().add(cmdRead);
               }
@@ -234,10 +234,10 @@ expr		:  termo  { strExpr += _input.LT(-1).getText(); } exprl
 			;
 			
 termo		: ID  { if (!isDeclared(_input.LT(-1).getText())) {
-                       throw new BUCOLSemanticException("Undeclared Variable: "+_input.LT(-1).getText());
+                       throw new BUCOLSemanticException("Ó autor, tentais utilizar de uma variável não declarada: "+_input.LT(-1).getText());
                     }
                     if (!symbolTable.get(_input.LT(-1).getText()).isInitialized()){
-                       throw new BUCOLSemanticException("Variable "+_input.LT(-1).getText()+" has no value assigned");
+                       throw new BUCOLSemanticException("Ó autor, tentais utilizar de uma variável sem valor: "+_input.LT(-1).getText());
                     }
                     if (rightType == null){
                        rightType = symbolTable.get(_input.LT(-1).getText()).getType();

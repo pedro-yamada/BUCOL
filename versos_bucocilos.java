@@ -11,7 +11,7 @@ public class versos_bucocilos{
 System.out.println("Hello World");
 System.out.println("Fim do programa");
 a = 3.1415;
-b = _scTrx.nextInt();
+b = _scTrx.nextFloat();
 c = true;
 d = false;
 System.out.println(a);
