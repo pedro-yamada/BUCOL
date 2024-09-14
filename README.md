@@ -47,8 +47,13 @@ Atentai (à|ao)(s) <TIPO> <ID>
 ```
 
 #### Escrita
+Sem quebra de linha
 ```
 Rogai ao mundo: <ID>
+```
+Com quebra de linha
+```
+Rogai ao mundo!: <ID>
 ```
 
 #### Condicional
