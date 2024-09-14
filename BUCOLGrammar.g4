@@ -233,7 +233,7 @@ cmdEscrita  : 'Rogai ao mundo' DP
 cmdEscritaNL  : 'Rogai ao mundo' DP '-'
               ( termo  { Command cmdWrite = new WriteCommand(_input.LT(-1).getText());
                          
-                         stack.peek().add('/n/'+cmdWrite);
+                         stack.peek().add('\n' + cmdWrite);
                        } 
               ) 
             QL { rightType = null;}
